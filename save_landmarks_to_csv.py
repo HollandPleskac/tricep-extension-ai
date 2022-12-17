@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 
+from get_cols import get_cols
+
 # Custom object to easily represent landmark information I need
 class Landmark:
     def __init__(self, id, x, y):
@@ -23,6 +25,8 @@ def save_landmarks(img, pose_type, pose_landmarks):
   landmarks = landmarks.flatten() # [ x1, y1, ... , x33, y33] 66 elements total in this list
   # print('flattened', landmarks, len(landmarks))
 
-  df = pd.DataFrame(landmarks.reshape(1, 66), index=[pose_type])
+  cols = get_cols(len(landmark_obj_list))
+
+  df = pd.DataFrame(landmarks.reshape(1, 66), index=[pose_type], columns=cols)
   print(df)
   df.to_csv('landmarks.csv', mode='a', index=[pose_type], header=None) # adds index to csv file
